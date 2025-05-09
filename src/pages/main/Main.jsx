@@ -39,7 +39,7 @@ const Main = () => {
         <FeatureSection />
         <Menu />
       </div>
-      {sideModalStatus && <CartModal />}
+      {sideModalStatus && <CartModal exitCartModal={exitCartModal}/>}
       <Footer />
     </div>
   );
