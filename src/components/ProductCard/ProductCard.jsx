@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ProductModal from "../ProductModal/ProductModal";
 import classes from "./ProductCard.module.scss";
+import CartModal from "../CartModal/CartModal";
 
 const ProductCard = () => {
   const [modalStatus, setModalStatus] = useState(false);
@@ -36,12 +37,7 @@ const ProductCard = () => {
           <h4>A$10.00</h4>
         </div>
       </div>
-      {modalStatus && (
-        <ProductModal closeModal={closeModal}>
-           
-         
-        </ProductModal>
-      )}
+      {modalStatus && <ProductModal closeModal={closeModal} />}
     </>
   );
 };
