@@ -1,0 +1,31 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.card {
+  // border: 1px solid black;
+  position: relative;
+
+  img {
+    border-radius: 10px;
+  }
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+  &__plus {
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    width: 20px;
+    padding: 1em;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 80px;
+    left: 12em;
+    cursor: pointer;
+    background-color: white;    
+  }
+}
