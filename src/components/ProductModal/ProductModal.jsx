@@ -13,7 +13,7 @@ const ProductModal = ({ closeModal }) => {
         <h1>Title</h1>
         <p>(1000kJ)</p>
         <h4>A$10.00</h4>
-        <img src="https://placecats.com/neo_banana/600/400" alt="" />
+        <img src="" alt="" />
         <div className={classes.container__addCart}>
           <div className={classes.container__addCart__count}>
             <button>-</button>
