@@ -34,25 +34,27 @@ export const IsItemInCart = async (title) => {
   }
 };
 
-export const updateQuantity = async (title, count) => {
-    //query document, get quantity
+export const updateQuantity = async (title, exactQuantity) => {
+  try {
     const collectionRef = collection(db, "Cart");
     const itemQuery = query(collectionRef, where("title", "==", title));
     const querySnapshot = await getDocs(itemQuery);
-    if(!querySnapshot.empty) {
-        const selectedDoc = querySnapshot.docs[0];
-        const currentQuantity = selectedDoc.data().quantity || 0;
-        const newQuantity = currentQuantity + count
-        // update document with quantity + count
-        const docRef = doc(db, "Cart", selectedDoc.id);
-        
-        await updateDoc(docRef, { quantity: newQuantity})
 
-        return true;
+    if (!querySnapshot.empty) {
+      const selectedDoc = querySnapshot.docs[0];
+      const docRef = doc(db, "Cart", selectedDoc.id);
+
+      await updateDoc(docRef, { quantity: exactQuantity });
+
+      return true;
     } else {
-        return false;
+      return false;
     }
-}
+  } catch (error) {
+    return false;
+  }
+};
+
 
 
 export const addItemToCart = async (item) => {
@@ -98,6 +100,36 @@ export const subscribeToCart = (callback) => {
 
   return unsubscribe;
 };
+
+export const getStockOnItem = async (title) => {
+  const collectionRef = collection(db, "Cart");
+  const itemQuery = query(collectionRef, where("title", "==", title));
+  const querySnapshot = await getDocs(itemQuery);
+  if (!querySnapshot.empty) {
+    const selectedDoc = querySnapshot.docs[0];
+    const currentStock = selectedDoc.data().stock;
+    return currentStock;
+  }
+};
+
+// export const updateStockOnItem = async (title, quantity) => {
+//     const collectionRef = collection(db, "Cart");
+//     const itemQuery = query(collectionRef, where("title", "==", title));
+//     const querySnapshot = await getDocs(itemQuery);
+//     if(!querySnapshot.empty) {
+//         const selectedDoc = querySnapshot.docs[0];
+//         const currentQuantity = selectedDoc.data().quantity || 0;
+//         const newQuantity = currentQuantity + count
+//         // update document with quantity + count
+//         const docRef = doc(db, "Cart", selectedDoc.id);
+
+//         await updateDoc(docRef, { quantity: newQuantity})
+
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
 
 export const deleteProductFromCart = async (itemId) => {
   await deleteDoc(doc(db, "Cart", itemId));

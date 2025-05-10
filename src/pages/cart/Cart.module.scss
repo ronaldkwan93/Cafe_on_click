@@ -1,0 +1,20 @@
+.cart {
+    &__logo {
+        font-size: 5em;
+    }
+    &__items {
+        display: flex;
+        align-items: center;
+        img {
+            width: 50px;
+        }
+    }
+    button {
+        width: 50%;
+        border-radius: 25px;
+        background: red;
+        color: white;
+        height: 2.5em;
+        font-size: 18px;
+    }
+}

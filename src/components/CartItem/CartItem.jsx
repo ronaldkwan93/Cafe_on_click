@@ -1,17 +1,24 @@
-import { useState } from 'react';
-import classes from './CartItem.module.scss'
+import { useEffect, useState } from "react";
+import classes from "./CartItem.module.scss";
+import { updateQuantity } from "../../services/CafeServiceProvider";
 
-const CartItem = ({item, handleRemove}) => {
-    const [quantity, setQuantity] = useState(item.quantity);
-    const totalPrice = quantity * item.price;
+const CartItem = ({ item, handleRemove }) => {
+  const [quantity, setQuantity] = useState(item.quantity);
+  const totalPrice = quantity * item.price;
 
-    const handleDecrement = () => {
-        setQuantity(quantity - 1)
+  const handleDecrement = async () => {
+    if (quantity > 1) {
+      const newQuantity = quantity - 1;
+      setQuantity(newQuantity);
+      await updateQuantity(item.title, newQuantity);
     }
+  };
 
-    const handleIncrement = () => {
-        setQuantity(quantity + 1)
-    }
+  const handleIncrement = async () => {
+    const newQuantity = quantity + 1;
+    setQuantity(newQuantity);
+    await updateQuantity(item.title, newQuantity);
+  };
 
   return (
     <div className={classes.item}>
@@ -19,11 +26,12 @@ const CartItem = ({item, handleRemove}) => {
       <div>
         <p>{item.title}</p>
         <p>{item.kJ}kJ</p>
-        <p>A${totalPrice}</p>
-        
+        <p>A${totalPrice.toFixed(2)}</p>
       </div>
       <div className={classes.item__counter}>
-        <button onClick={handleDecrement} disabled={quantity <= 1}>-</button>
+        <button onClick={handleDecrement} disabled={quantity <= 1}>
+          -
+        </button>
         <p>{quantity}</p>
         <button onClick={handleIncrement}>+</button>
       </div>

@@ -7,7 +7,8 @@ import FeatureSection from "../../components/FeatureSection/FeatureSection";
 import Menu from "../../components/Menu/Menu";
 import CartModal from "../../components/CartModal/CartModal";
 
-const Main = ({data, cartData}) => {
+
+const Main = ({data, cartData, handleRemove}) => {
   const [sideModalStatus, setSideModalStatus] = useState(false);
 
   const handleCartModal = () => {
@@ -39,7 +40,7 @@ const Main = ({data, cartData}) => {
         <FeatureSection />
         <Menu data={data} handleCartModal={handleCartModal} />
       </div>
-      {sideModalStatus && <CartModal exitCartModal={exitCartModal} data={cartData} />}
+      {sideModalStatus && <CartModal exitCartModal={exitCartModal} data={cartData} handleRemove={handleRemove} />}
       <Footer />
     </div>
   );
