@@ -37,7 +37,7 @@ const Main = ({data, cartData, handleRemove}) => {
             <button>See More</button>
           </div>
         </div>
-        <FeatureSection />
+        <FeatureSection  />
         <Menu data={data} handleCartModal={handleCartModal} />
       </div>
       {sideModalStatus && <CartModal exitCartModal={exitCartModal} data={cartData} handleRemove={handleRemove} />}

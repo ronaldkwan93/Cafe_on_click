@@ -1,7 +1,36 @@
 .container {
-    // border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
+  // border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 
+  &__back {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    padding: 1em;
+    cursor: pointer;
+    left: 30%;
+  }
+  &__next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    padding: 1em;
+    cursor: pointer;
+    right: 30%;
+  }
+
+  &__feature {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 30em;
+      height: 30em;
+    }
+  }
 }

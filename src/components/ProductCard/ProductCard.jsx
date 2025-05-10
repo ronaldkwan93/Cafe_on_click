@@ -3,7 +3,7 @@ import ProductModal from "../ProductModal/ProductModal";
 import classes from "./ProductCard.module.scss";
 import CartModal from "../CartModal/CartModal";
 
-const ProductCard = ({ data, handleCartModal }) => {
+const ProductCard = ({ data, handleCartModal, hidePlus = false }) => {
   console.log(data);
   if (!data) return <p>Loading...</p>;
 
@@ -37,9 +37,9 @@ const ProductCard = ({ data, handleCartModal }) => {
 
   return (
     <>
-      <div className={classes.card} onClick={showModal} >
+      <div className={classes.card} onClick={showModal}>
         <img src={data.imgUrl} alt="" />
-        <p className={classes.card__plus}>+</p>
+        {!hidePlus && <p className={classes.card__plus}>+</p>}
         <div className={classes.card__text}>
           <h4>{data.title}</h4>
           <p>{data.kJ}kJ</p>

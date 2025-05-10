@@ -23,6 +23,25 @@ export const getMenuData = async () => {
   return data;
 };
 
+export const getFeaturedMenuData = async () => {
+    const featuredQuery = query(
+      collection(db, "Items"),
+      where("isFeatured", "==", true)
+    );
+    
+    const querySnapshot = await getDocs(featuredQuery);
+    const featuredData = [];
+    
+    querySnapshot.forEach((doc) => {
+      featuredData.push({
+        id: doc.id,
+        ...doc.data(),
+      });
+    });
+    
+    return featuredData;
+  };
+
 export const IsItemInCart = async (title) => {
   const collectionRef = collection(db, "Cart");
   const itemQuery = query(collectionRef, where("title", "==", title));

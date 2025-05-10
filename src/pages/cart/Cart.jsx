@@ -12,7 +12,7 @@ const Cart = ({ data }) => {
   console.log(data);
   const navigate = useNavigate();
   const itemLength = cartItems.length;
-  // const totalPrice = (data.price * data.quantity)
+  // const totalPrice = (data.price * data.quant ity)
   // console.log(data.price)
   const handleBack = () => {
     navigate("/");
