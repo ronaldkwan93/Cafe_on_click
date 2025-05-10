@@ -18,14 +18,19 @@ const ProductCard = ({ data }) => {
   };
 
   useEffect(() => {
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    
     if (modalStatus) {
       document.body.style.overflow = "hidden";
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
     } else {
       document.body.style.overflow = "auto";
+      document.body.style.paddingRight = "0px";
     }
 
     return () => {
       document.body.style.overflow = "auto";
+      document.body.style.paddingRight = "0px";
     };
   }, [modalStatus]);
 
@@ -40,7 +45,7 @@ const ProductCard = ({ data }) => {
           <h4>A${data.price?.toFixed(2) ?? ""}</h4>
         </div>
       </div>
-      {modalStatus && <ProductModal closeModal={closeModal} data={data}/>}
+      {modalStatus && <ProductModal closeModal={closeModal} data={data} />}
     </>
   );
 };
