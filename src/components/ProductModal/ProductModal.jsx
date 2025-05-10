@@ -1,8 +1,30 @@
+import { useState } from "react";
+import { addItemToCart } from "../../services/CafeServiceProvider";
 import classes from "./ProductModal.module.scss";
 
 const ProductModal = ({ closeModal, data }) => {
+  const [notification, setNotification] = useState(null);
+  const [showNotification, setShowNotification] = useState(false);
   const handleContainerClick = (e) => {
     e.stopPropagation();
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      await addItemToCart({
+        itemId: data.id,
+        title: data.title,
+        price: data.price,
+        quantity: 1,
+        imgUrl: data.imgUrl,
+        kJ: data.kJ
+      });
+      setNotification("Added Item(s) to cart!");
+      setShowNotification(true);
+    } catch (err) {
+      setNotification("Failed to add item to cart.");
+      setShowNotification(true);
+    }
   };
   return (
     <div className={classes.backdrop} onClick={closeModal}>
@@ -20,8 +42,9 @@ const ProductModal = ({ closeModal, data }) => {
             <p>count</p>
             <button>+</button>
           </div>
-          <button className={classes.container__addCart_btn}>Add to cart</button>
+          <button className={classes.container__addCart_btn} onClick={handleAddToCart}>Add to cart</button>
         </div>
+          {showNotification && <p>{notification}</p>}
       </div>
     </div>
   );
