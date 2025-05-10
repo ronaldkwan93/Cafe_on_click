@@ -3,7 +3,7 @@ import ProductModal from "../ProductModal/ProductModal";
 import classes from "./ProductCard.module.scss";
 import CartModal from "../CartModal/CartModal";
 
-const ProductCard = ({ data }) => {
+const ProductCard = ({ data, handleCartModal }) => {
   console.log(data);
   if (!data) return <p>Loading...</p>;
 
@@ -45,7 +45,7 @@ const ProductCard = ({ data }) => {
           <h4>A${data.price?.toFixed(2) ?? ""}</h4>
         </div>
       </div>
-      {modalStatus && <ProductModal closeModal={closeModal} data={data} />}
+      {modalStatus && <ProductModal closeModal={closeModal} data={data} handleCartModal={handleCartModal} />}
     </>
   );
 };

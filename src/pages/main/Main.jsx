@@ -37,7 +37,7 @@ const Main = ({data, cartData}) => {
           </div>
         </div>
         <FeatureSection />
-        <Menu data={data} />
+        <Menu data={data} handleCartModal={handleCartModal} />
       </div>
       {sideModalStatus && <CartModal exitCartModal={exitCartModal} data={cartData} />}
       <Footer />

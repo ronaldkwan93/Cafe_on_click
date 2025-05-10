@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import classes from './CartItem.module.scss'
 
 const CartItem = ({item, handleRemove}) => {
+    const [quantity, setQuantity] = useState(item.quantity)
   return (
     <div className={classes.item}>
       <img src={item.imgUrl} alt={item.title} />
@@ -8,11 +10,11 @@ const CartItem = ({item, handleRemove}) => {
         <p>{item.title}</p>
         <p>{item.kJ}kJ</p>
         <p>A${item.price?.toFixed(2) ?? ""}</p>
+        
       </div>
-
       <div className={classes.item__counter}>
         <button>-</button>
-        <p>count</p>
+        <p>{quantity}</p>
         <button>+</button>
       </div>
       <div onClick={() => handleRemove(item)}>Delete</div>

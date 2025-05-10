@@ -1,14 +1,14 @@
 import ProductCard from "../ProductCard/ProductCard";
 import classes from "./Menu.module.scss";
 
-const Menu = ({ data }) => {
+const Menu = ({ data, handleCartModal }) => {
   console.log(data);
   return (
     <div>
       <h2>Menu</h2>
       <div className={classes.menu}>
         {data.map((product) => (
-          <ProductCard data={product} />
+          <ProductCard data={product} handleCartModal={handleCartModal}/>
         ))}
       </div>
     </div>
