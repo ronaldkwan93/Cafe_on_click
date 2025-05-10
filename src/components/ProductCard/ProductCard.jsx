@@ -18,8 +18,9 @@ const ProductCard = ({ data, handleCartModal }) => {
   };
 
   useEffect(() => {
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
     if (modalStatus) {
       document.body.style.overflow = "hidden";
       document.body.style.paddingRight = `${scrollbarWidth}px`;
@@ -36,7 +37,7 @@ const ProductCard = ({ data, handleCartModal }) => {
 
   return (
     <>
-      <div className={classes.card} onClick={showModal}>
+      <div className={classes.card} onClick={showModal} >
         <img src={data.imgUrl} alt="" />
         <p className={classes.card__plus}>+</p>
         <div className={classes.card__text}>
@@ -45,7 +46,13 @@ const ProductCard = ({ data, handleCartModal }) => {
           <h4>A${data.price?.toFixed(2) ?? ""}</h4>
         </div>
       </div>
-      {modalStatus && <ProductModal closeModal={closeModal} data={data} handleCartModal={handleCartModal} />}
+      {modalStatus && (
+        <ProductModal
+          closeModal={closeModal}
+          data={data}
+          handleCartModal={handleCartModal}
+        />
+      )}
     </>
   );
 };

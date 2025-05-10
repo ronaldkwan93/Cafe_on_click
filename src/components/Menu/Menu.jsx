@@ -8,7 +8,7 @@ const Menu = ({ data, handleCartModal }) => {
       <h2>Menu</h2>
       <div className={classes.menu}>
         {data.map((product) => (
-          <ProductCard data={product} handleCartModal={handleCartModal}/>
+          <ProductCard key={product.id} data={product} handleCartModal={handleCartModal}/>
         ))}
       </div>
     </div>

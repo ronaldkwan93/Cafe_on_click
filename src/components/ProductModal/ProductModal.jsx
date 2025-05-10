@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { addItemToCart } from "../../services/CafeServiceProvider";
+import {
+  addItemToCart,
+  IsItemInCart,
+  updateQuantity,
+} from "../../services/CafeServiceProvider";
 import classes from "./ProductModal.module.scss";
 
 const ProductModal = ({ closeModal, data, handleCartModal }) => {
@@ -22,23 +26,37 @@ const ProductModal = ({ closeModal, data, handleCartModal }) => {
   const quickCheckOut = () => {
     closeModal();
     handleCartModal();
-  }
+  };
 
   const handleAddToCart = async () => {
-    try {
-      await addItemToCart({
-        itemId: data.id,
-        title: data.title,
-        price: data.price,
-        quantity: count,
-        imgUrl: data.imgUrl,
-        kJ: data.kJ,
-      });
-      setNotification("Added Item(s) to cart!");
-      setShowNotification(true);
-    } catch (err) {
-      setNotification("Failed to add item to cart.");
-      setShowNotification(true);
+    // if cart document has item.title, then update, if not, addItemto Cart
+    const itemFound = await IsItemInCart(data.title);
+    if (itemFound) {
+      try {
+        await updateQuantity(data.title, count);
+        setNotification("Added Item(s) to cart!");
+        setShowNotification(true);
+        
+      } catch (error) {
+        setNotification("Failed to add, please try again!")
+        setNotification(true);
+      }
+    } else {
+      try {
+        await addItemToCart({
+          itemId: data.id,
+          title: data.title,
+          price: data.price,
+          quantity: count,
+          imgUrl: data.imgUrl,
+          kJ: data.kJ,
+        });
+        setNotification("Added Item(s) to cart!");
+        setShowNotification(true);
+      } catch (err) {
+        setNotification("Failed to add item to cart.");
+        setShowNotification(true);
+      }
     }
   };
   return (
@@ -69,7 +87,12 @@ const ProductModal = ({ closeModal, data, handleCartModal }) => {
         {showNotification && (
           <div>
             <p>{notification}</p>
-            <button className={classes.container__checkOut} onClick={quickCheckOut}>Quick checkout</button>
+            <button
+              className={classes.container__checkOut}
+              onClick={quickCheckOut}
+            >
+              Quick checkout
+            </button>
           </div>
         )}
       </div>
