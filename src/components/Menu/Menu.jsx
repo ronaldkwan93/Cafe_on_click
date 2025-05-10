@@ -1,15 +1,18 @@
-import ProductCard from "../ProductCard/ProductCard"
-import classes from './Menu.module.scss'
+import ProductCard from "../ProductCard/ProductCard";
+import classes from "./Menu.module.scss";
 
-const Menu = () => {
+const Menu = ({ data }) => {
+  console.log(data);
   return (
-    <div className={classes.menu}>
+    <div>
       <h2>Menu</h2>
-      <div>
-        <ProductCard/>
+      <div className={classes.menu}>
+        {data.map((product) => (
+          <ProductCard data={product} />
+        ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Menu
+export default Menu;

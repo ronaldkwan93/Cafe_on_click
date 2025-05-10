@@ -3,7 +3,9 @@ import ProductModal from "../ProductModal/ProductModal";
 import classes from "./ProductCard.module.scss";
 import CartModal from "../CartModal/CartModal";
 
-const ProductCard = () => {
+const ProductCard = ({data}) => {
+  console.log(data);
+  if(!data) return <p>Loading...</p>
   const [modalStatus, setModalStatus] = useState(false);
 
   const showModal = () => {
@@ -29,12 +31,12 @@ const ProductCard = () => {
   return (
     <>
       <div className={classes.card} onClick={showModal}>
-        <img src="https://placecats.com/neo_banana/250/200" alt="" />
+        <img src={data.imgUrl} alt="" />
         <p className={classes.card__plus}>+</p>
         <div className={classes.card__text}>
-          <h4>Title</h4>
+          <h4>{data.title}</h4>
           <p>(1000kJ)</p>
-          <h4>A$10.00</h4>
+          <h4>A${data.price}.00</h4>
         </div>
       </div>
       {modalStatus && <ProductModal closeModal={closeModal} />}
