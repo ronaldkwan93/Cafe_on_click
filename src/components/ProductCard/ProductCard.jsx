@@ -3,9 +3,10 @@ import ProductModal from "../ProductModal/ProductModal";
 import classes from "./ProductCard.module.scss";
 import CartModal from "../CartModal/CartModal";
 
-const ProductCard = ({data}) => {
+const ProductCard = ({ data }) => {
   console.log(data);
-  if(!data) return <p>Loading...</p>
+  if (!data) return <p>Loading...</p>;
+
   const [modalStatus, setModalStatus] = useState(false);
 
   const showModal = () => {
@@ -35,11 +36,11 @@ const ProductCard = ({data}) => {
         <p className={classes.card__plus}>+</p>
         <div className={classes.card__text}>
           <h4>{data.title}</h4>
-          <p>(1000kJ)</p>
-          <h4>A${data.price}.00</h4>
+          <p>{data.kJ}kJ</p>
+          <h4>A${data.price?.toFixed(2) ?? ""}</h4>
         </div>
       </div>
-      {modalStatus && <ProductModal closeModal={closeModal} />}
+      {modalStatus && <ProductModal closeModal={closeModal} data={data}/>}
     </>
   );
 };

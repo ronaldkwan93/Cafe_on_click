@@ -1,6 +1,6 @@
 import classes from "./ProductModal.module.scss";
 
-const ProductModal = ({ closeModal }) => {
+const ProductModal = ({ closeModal, data }) => {
   const handleContainerClick = (e) => {
     e.stopPropagation();
   };
@@ -10,10 +10,10 @@ const ProductModal = ({ closeModal }) => {
         <p onClick={closeModal} className={classes.container__exit}>
           X
         </p>
-        <h1>Title</h1>
-        <p>(1000kJ)</p>
-        <h4>A$10.00</h4>
-        <img src="" alt="" />
+        <h1>{data.title}</h1>
+        <p>{data.kJ}kJ</p>
+        <h4>$A{data.price.toFixed(2) ?? '' }</h4>
+        <img src={data.imgUrl} alt={data.title} />
         <div className={classes.container__addCart}>
           <div className={classes.container__addCart__count}>
             <button>-</button>
