@@ -31,7 +31,6 @@ const Main = ({data, cartData, handleRemove}) => {
         <div>
           <div className={classes.main__product_heading}>
             <h2>Cafe on Click</h2>
-            <InputBar />
           </div>
           <div className={classes.main__see_more}>
             <button>See More</button>

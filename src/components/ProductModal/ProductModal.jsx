@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   addItemToCart,
+  getStockOnItem,
   IsItemInCart,
   updateQuantity,
 } from "../../services/CafeServiceProvider";
@@ -10,6 +11,7 @@ const ProductModal = ({ closeModal, data, handleCartModal }) => {
   const [notification, setNotification] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
   const [count, setCount] = useState(1);
+  const [stock, setStock ] = useState(0)
 
   const handleContainerClick = (e) => {
     e.stopPropagation();
@@ -27,6 +29,16 @@ const ProductModal = ({ closeModal, data, handleCartModal }) => {
     closeModal();
     handleCartModal();
   };
+
+  useEffect(() => {
+    console.log(data.title)
+    const stockCount =  async () => {
+      getStockOnItem(data.title).then(result => setStock(result));
+    }
+    stockCount();
+  }, [])
+
+  console.log(stock)
 
   const handleAddToCart = async () => {
     // if cart document has item.title, then update, if not, addItemto Cart
@@ -75,7 +87,7 @@ const ProductModal = ({ closeModal, data, handleCartModal }) => {
               -
             </button>
             <p>{count}</p>
-            <button onClick={handleIncrement}>+</button>
+            <button onClick={handleIncrement} disabled={count === stock}>+</button>
           </div>
           <button
             className={classes.container__addCart_btn}

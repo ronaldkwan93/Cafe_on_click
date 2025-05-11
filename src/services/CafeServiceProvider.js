@@ -24,23 +24,23 @@ export const getMenuData = async () => {
 };
 
 export const getFeaturedMenuData = async () => {
-    const featuredQuery = query(
-      collection(db, "Items"),
-      where("isFeatured", "==", true)
-    );
-    
-    const querySnapshot = await getDocs(featuredQuery);
-    const featuredData = [];
-    
-    querySnapshot.forEach((doc) => {
-      featuredData.push({
-        id: doc.id,
-        ...doc.data(),
-      });
+  const featuredQuery = query(
+    collection(db, "Items"),
+    where("isFeatured", "==", true)
+  );
+
+  const querySnapshot = await getDocs(featuredQuery);
+  const featuredData = [];
+
+  querySnapshot.forEach((doc) => {
+    featuredData.push({
+      id: doc.id,
+      ...doc.data(),
     });
-    
-    return featuredData;
-  };
+  });
+
+  return featuredData;
+};
 
 export const IsItemInCart = async (title) => {
   const collectionRef = collection(db, "Cart");
@@ -73,8 +73,6 @@ export const updateQuantity = async (title, exactQuantity) => {
     return false;
   }
 };
-
-
 
 export const addItemToCart = async (item) => {
   try {
@@ -121,7 +119,7 @@ export const subscribeToCart = (callback) => {
 };
 
 export const getStockOnItem = async (title) => {
-  const collectionRef = collection(db, "Cart");
+  const collectionRef = collection(db, "Items");
   const itemQuery = query(collectionRef, where("title", "==", title));
   const querySnapshot = await getDocs(itemQuery);
   if (!querySnapshot.empty) {
