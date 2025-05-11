@@ -11,7 +11,9 @@ const ProductModal = ({ closeModal, data, handleCartModal }) => {
   const [notification, setNotification] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
   const [count, setCount] = useState(1);
-  const [stock, setStock ] = useState(0)
+  const [stock, setStock] = useState(0);
+  const [selectedSize, setSelectedSize] = useState("");
+  const [sizeError, setSizeError] = useState(false);
 
   const handleContainerClick = (e) => {
     e.stopPropagation();
@@ -29,39 +31,55 @@ const ProductModal = ({ closeModal, data, handleCartModal }) => {
     closeModal();
     handleCartModal();
   };
+  const handleSizeChange = (e) => {
+    setSelectedSize(e.target.value);
+    setSizeError(false);
+    setShowNotification("");
+  };
 
   useEffect(() => {
-    console.log(data.title)
-    const stockCount =  async () => {
-      getStockOnItem(data.title).then(result => setStock(result));
-    }
+    console.log(data.title);
+    const stockCount = async () => {
+      getStockOnItem(data.title).then((result) => setStock(result));
+    };
     stockCount();
-  }, [])
+  }, []);
 
-  console.log(stock)
+  console.log(stock);
 
   const handleAddToCart = async () => {
-    // if cart document has item.title, then update, if not, addItemto Cart
-    const itemFound = await IsItemInCart(data.title);
+    if (data.category === "coffee" && !selectedSize) {
+      setSizeError(true);
+      return;
+    }
+  
+    let itemTitle = data.title;
+    if (data.category === "coffee" && selectedSize) {
+      itemTitle = `${data.title} (${selectedSize.charAt(0).toUpperCase() + selectedSize.slice(1)})`;
+    }
+  
+    const itemFound = await IsItemInCart(itemTitle);
+  
     if (itemFound) {
       try {
-        await updateQuantity(data.title, count);
+        await updateQuantity(itemTitle, count);
         setNotification("Added Item(s) to cart!");
         setShowNotification(true);
-        
       } catch (error) {
-        setNotification("Failed to add, please try again!")
-        setNotification(true);
+        setNotification("Failed to add, please try again!");
+        setShowNotification(true);
       }
     } else {
       try {
         await addItemToCart({
+          category: data.category,
           itemId: data.id,
-          title: data.title,
+          title: itemTitle,  
           price: data.price,
           quantity: count,
           imgUrl: data.imgUrl,
           kJ: data.kJ,
+          size: data.category === "coffee" ? selectedSize : null,  
         });
         setNotification("Added Item(s) to cart!");
         setShowNotification(true);
@@ -71,6 +89,7 @@ const ProductModal = ({ closeModal, data, handleCartModal }) => {
       }
     }
   };
+
   return (
     <div className={classes.backdrop} onClick={closeModal}>
       <div className={classes.container} onClick={handleContainerClick}>
@@ -81,13 +100,67 @@ const ProductModal = ({ closeModal, data, handleCartModal }) => {
         <p>{data.kJ}kJ</p>
         <h4>$A{data.price.toFixed(2) ?? ""}</h4>
         <img src={data.imgUrl} alt={data.title} />
+        {/* If data.category is drink, then we will want to have a form of buttons to select size */}
+        {data.category === "coffee" && (
+          <div className={classes.container__sizes}>
+            <form>
+              <label
+                className={`${classes.sizeOption} ${
+                  selectedSize === "small" ? classes.selected : ""
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="size"
+                  value="small"
+                  checked={selectedSize === "small"}
+                  onChange={handleSizeChange}
+                />
+                Small
+              </label>
+              <label
+                className={`${classes.sizeOption} ${
+                  selectedSize === "medium" ? classes.selected : ""
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="size"
+                  value="medium"
+                  checked={selectedSize === "medium"}
+                  onChange={handleSizeChange}
+                />
+                Medium
+              </label>
+              <label
+                className={`${classes.sizeOption} ${
+                  selectedSize === "large" ? classes.selected : ""
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="size"
+                  value="large"
+                  checked={selectedSize === "large"}
+                  onChange={handleSizeChange}
+                />
+                Large
+              </label>
+            </form>
+            {sizeError && (
+              <p className={classes.errorText}>Please select a size</p>
+            )}
+          </div>
+        )}
         <div className={classes.container__addCart}>
           <div className={classes.container__addCart__count}>
             <button onClick={handleDecrement} disabled={count <= 1}>
               -
             </button>
             <p>{count}</p>
-            <button onClick={handleIncrement} disabled={count === stock}>+</button>
+            <button onClick={handleIncrement} disabled={count === stock}>
+              +
+            </button>
           </div>
           <button
             className={classes.container__addCart_btn}
@@ -97,14 +170,16 @@ const ProductModal = ({ closeModal, data, handleCartModal }) => {
           </button>
         </div>
         {showNotification && (
-          <div>
+          <div className={classes.notification}>
             <p>{notification}</p>
-            <button
-              className={classes.container__checkOut}
-              onClick={quickCheckOut}
-            >
-              Quick checkout
-            </button>
+            {!sizeError && (
+              <button
+                className={classes.container__checkOut}
+                onClick={quickCheckOut}
+              >
+                Quick checkout
+              </button>
+            )}
           </div>
         )}
       </div>

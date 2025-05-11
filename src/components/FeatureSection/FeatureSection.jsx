@@ -3,7 +3,7 @@ import ProductCard from "../ProductCard/ProductCard";
 import classes from "./FeatureSection.module.scss";
 import { getFeaturedMenuData } from "../../services/CafeServiceProvider";
 
-const FeatureSection = () => {
+const FeatureSection = ({handleCartModal}) => {
   const [data, setData] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -37,7 +37,7 @@ const FeatureSection = () => {
         {`>`}
         </button>
         <div className={classes.container__feature}>
-          <ProductCard data={data[currentIndex]} hidePlus={true} />
+          <ProductCard data={data[currentIndex]} hidePlus={true} handleCartModal={handleCartModal}/>
         </div>
       </div>
     </>
