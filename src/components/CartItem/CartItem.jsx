@@ -10,14 +10,14 @@ const CartItem = ({ item, handleRemove }) => {
     if (quantity > 1) {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
-      await updateQuantity(item.title, newQuantity);
+      await updateQuantity(item.title, -1);
     }
   };
 
   const handleIncrement = async () => {
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
-    await updateQuantity(item.title, newQuantity);
+    await updateQuantity(item.title, 1);
   };
 
   return (

@@ -53,7 +53,7 @@ export const IsItemInCart = async (title) => {
   }
 };
 
-export const updateQuantity = async (title, exactQuantity) => {
+export const updateQuantity = async (title, additionalQuantity) => {
   try {
     const collectionRef = collection(db, "Cart");
     const itemQuery = query(collectionRef, where("title", "==", title));
@@ -61,15 +61,18 @@ export const updateQuantity = async (title, exactQuantity) => {
 
     if (!querySnapshot.empty) {
       const selectedDoc = querySnapshot.docs[0];
-      const docRef = doc(db, "Cart", selectedDoc.id);
+      const currentQuantity = selectedDoc.data().quantity || 0;
+      const newQuantity = currentQuantity + additionalQuantity;
 
-      await updateDoc(docRef, { quantity: exactQuantity });
+      const docRef = doc(db, "Cart", selectedDoc.id);
+      await updateDoc(docRef, { quantity: newQuantity });
 
       return true;
     } else {
       return false;
     }
   } catch (error) {
+    console.error("Error updating quantity:", error);
     return false;
   }
 };

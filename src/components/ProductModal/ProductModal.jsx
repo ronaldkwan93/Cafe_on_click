@@ -63,7 +63,7 @@ const ProductModal = ({ closeModal, data, handleCartModal }) => {
     if (itemFound) {
       try {
         await updateQuantity(itemTitle, count);
-        setNotification("Added Item(s) to cart!");
+        setNotification(`Added  ${count} Item(s) to cart!`);
         setShowNotification(true);
       } catch (error) {
         setNotification("Failed to add, please try again!");
@@ -81,7 +81,7 @@ const ProductModal = ({ closeModal, data, handleCartModal }) => {
           kJ: data.kJ,
           size: data.category === "coffee" ? selectedSize : null,  
         });
-        setNotification("Added Item(s) to cart!");
+        setNotification(`Added ${count} items(s) to cart!`);
         setShowNotification(true);
       } catch (err) {
         setNotification("Failed to add item to cart.");
