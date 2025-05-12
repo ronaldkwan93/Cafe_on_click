@@ -42,6 +42,8 @@ export const getFeaturedMenuData = async () => {
   return featuredData;
 };
 
+
+
 export const IsItemInCart = async (title) => {
   const collectionRef = collection(db, "Cart");
   const itemQuery = query(collectionRef, where("title", "==", title));
@@ -73,6 +75,29 @@ export const updateQuantity = async (title, additionalQuantity) => {
     }
   } catch (error) {
     console.error("Error updating quantity:", error);
+    return false;
+  }
+};
+
+export const updateFavStatus = async (title) => {
+  try {
+    const collectionRef = collection(db, "Items");
+    const itemQuery = query(collectionRef, where("title", "==", title));
+    const querySnapshot = await getDocs(itemQuery);
+
+    if (!querySnapshot.empty) {
+      const selectedDoc = querySnapshot.docs[0];
+      const currentData = selectedDoc.data();
+
+      const docRef = doc(db, "Items", selectedDoc.id);
+      await updateDoc(docRef, { isFav: !currentData.isFav });
+
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error("Error updating favorite status:", error);
     return false;
   }
 };
@@ -132,24 +157,16 @@ export const getStockOnItem = async (title) => {
   }
 };
 
-// export const updateStockOnItem = async (title, quantity) => {
-//     const collectionRef = collection(db, "Cart");
-//     const itemQuery = query(collectionRef, where("title", "==", title));
-//     const querySnapshot = await getDocs(itemQuery);
-//     if(!querySnapshot.empty) {
-//         const selectedDoc = querySnapshot.docs[0];
-//         const currentQuantity = selectedDoc.data().quantity || 0;
-//         const newQuantity = currentQuantity + count
-//         // update document with quantity + count
-//         const docRef = doc(db, "Cart", selectedDoc.id);
-
-//         await updateDoc(docRef, { quantity: newQuantity})
-
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
+export const getFavStatus = async (title) => {
+  const collectionRef = collection(db, "Items");
+  const itemQuery = query(collectionRef, where("title", "==", title));
+  const querySnapshot = await getDocs(itemQuery);
+  if (!querySnapshot.empty) {
+    const selectedDoc = querySnapshot.docs[0];
+    const currentFavStatus = selectedDoc.data().isFav;
+    return currentFavStatus;
+  }
+};
 
 export const deleteProductFromCart = async (itemId) => {
   await deleteDoc(doc(db, "Cart", itemId));

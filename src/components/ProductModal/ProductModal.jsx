@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import {
   addItemToCart,
+  getFavStatus,
   getStockOnItem,
   IsItemInCart,
+  updateFavStatus,
   updateQuantity,
 } from "../../services/CafeServiceProvider";
 import classes from "./ProductModal.module.scss";
+import { FaRegHeart, FaHeart } from "react-icons/fa6";
 
 const ProductModal = ({ closeModal, data, handleCartModal }) => {
   const [notification, setNotification] = useState(null);
@@ -14,6 +17,7 @@ const ProductModal = ({ closeModal, data, handleCartModal }) => {
   const [stock, setStock] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
   const [sizeError, setSizeError] = useState(false);
+  const [isFavourite, setIsFavourite] = useState(data.isFav);
 
   const handleContainerClick = (e) => {
     e.stopPropagation();
@@ -38,28 +42,45 @@ const ProductModal = ({ closeModal, data, handleCartModal }) => {
   };
 
   useEffect(() => {
-    console.log(data.title);
-    const stockCount = async () => {
-      getStockOnItem(data.title).then((result) => setStock(result));
+    const initializeModal = async () => {
+      try {
+        const stockResult = await getStockOnItem(data.title);
+        setStock(stockResult);
+
+        const favStatus = await getFavStatus(data.title);
+        setIsFavourite(favStatus);
+      } catch (error) {
+        console.error("Error initializing modal data:", error);
+      }
     };
-    stockCount();
-  }, []);
+
+    if (data?.title) {
+      initializeModal();
+    }
+  }, [data.title]);
 
   console.log(stock);
+
+  const handleFav = async () => {
+    await updateFavStatus(data.title); 
+    setIsFavourite(!isFavourite); 
+  };
 
   const handleAddToCart = async () => {
     if (data.category === "coffee" && !selectedSize) {
       setSizeError(true);
       return;
     }
-  
+
     let itemTitle = data.title;
     if (data.category === "coffee" && selectedSize) {
-      itemTitle = `${data.title} (${selectedSize.charAt(0).toUpperCase() + selectedSize.slice(1)})`;
+      itemTitle = `${data.title} (${
+        selectedSize.charAt(0).toUpperCase() + selectedSize.slice(1)
+      })`;
     }
-  
+
     const itemFound = await IsItemInCart(itemTitle);
-  
+
     if (itemFound) {
       try {
         await updateQuantity(itemTitle, count);
@@ -74,12 +95,12 @@ const ProductModal = ({ closeModal, data, handleCartModal }) => {
         await addItemToCart({
           category: data.category,
           itemId: data.id,
-          title: itemTitle,  
+          title: itemTitle,
           price: data.price,
           quantity: count,
           imgUrl: data.imgUrl,
           kJ: data.kJ,
-          size: data.category === "coffee" ? selectedSize : null,  
+          size: data.category === "coffee" ? selectedSize : null,
         });
         setNotification(`Added ${count} items(s) to cart!`);
         setShowNotification(true);
@@ -97,6 +118,10 @@ const ProductModal = ({ closeModal, data, handleCartModal }) => {
           X
         </p>
         <h1>{data.title}</h1>
+        <button className={classes.container__fav} onClick={handleFav}>
+          {isFavourite ? <FaHeart /> : <FaRegHeart />}
+        </button>
+
         <p>{data.kJ}kJ</p>
         <h4>$A{data.price.toFixed(2) ?? ""}</h4>
         <img src={data.imgUrl} alt={data.title} />
