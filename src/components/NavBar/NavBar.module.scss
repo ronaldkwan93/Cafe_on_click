@@ -16,6 +16,10 @@
         font-size: 2em;
         color: black; // default
         transition: color 0.3s ease;
+        &:hover {
+            transform: scale(1.2);
+            cursor: pointer;
+          }
     }
     .cartActive {
         color: red;
