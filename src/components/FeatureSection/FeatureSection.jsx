@@ -28,7 +28,7 @@ const FeatureSection = ({handleCartModal}) => {
 
   return (
     <>
-      <h2>Featured Items</h2>
+      <h2 className={classes.title}>Featured Items</h2>
       <div className={classes.container}>
         <button onClick={previousCard} disabled={currentIndex <= 0} className={classes.container__back}>
           {`<`}

@@ -3,8 +3,12 @@ import ProductModal from "../ProductModal/ProductModal";
 import classes from "./ProductCard.module.scss";
 import CartModal from "../CartModal/CartModal";
 
-
-const ProductCard = ({ data, handleCartModal, hidePlus = false, onCloseModal }) => {
+const ProductCard = ({
+  data,
+  handleCartModal,
+  hidePlus = false,
+  onCloseModal,
+}) => {
   console.log(data);
   if (!data) return <p>Loading...</p>;
 
@@ -16,7 +20,7 @@ const ProductCard = ({ data, handleCartModal, hidePlus = false, onCloseModal }) 
 
   const closeModal = () => {
     setModalStatus(false);
-    onCloseModal();
+    if (onCloseModal) onCloseModal();
   };
 
   useEffect(() => {
@@ -40,8 +44,7 @@ const ProductCard = ({ data, handleCartModal, hidePlus = false, onCloseModal }) 
   return (
     <>
       <div className={classes.card} onClick={showModal}>
-      
-        <img src={data.imgUrl} alt="" />
+        <img src={data.imgUrl} alt={data.title} />
         {!hidePlus && <p className={classes.card__plus}>+</p>}
         <div className={classes.card__text}>
           <h4>{data.title}</h4>

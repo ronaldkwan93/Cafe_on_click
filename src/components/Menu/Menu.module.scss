@@ -3,12 +3,13 @@
   display: flex;
   flex-wrap: wrap;
   gap: 2em;
-  justify-content: start;
+  justify-content: center;
 }
 .title {
   display: flex;
   gap: 2em;
   padding-bottom: 1em;
+  padding-left: 5em;
   h2 {
     border: 1px solid black;
     border-radius: 6px;
