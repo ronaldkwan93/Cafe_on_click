@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import ProductModal from "../ProductModal/ProductModal";
 import classes from "./ProductCard.module.scss";
-import CartModal from "../CartModal/CartModal";
 
 const ProductCard = ({
   data,

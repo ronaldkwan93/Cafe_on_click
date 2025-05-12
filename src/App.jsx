@@ -1,4 +1,3 @@
-// import "./App.css";
 import { useEffect, useState } from "react";
 import Cart from "./pages/cart/Cart";
 import Main from "./pages/main/Main";
@@ -8,6 +7,7 @@ import {
   getCartProducts,
   getMenuData,
 } from "./services/CafeServiceProvider";
+import { CartProvider } from "./context/CartContext";
 
 function App() {
   const [menuData, setMenuData] = useState([]);
@@ -30,22 +30,24 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Main
-                data={menuData}
-                cartData={cartData}
-                handleRemove={handleRemove}
-                refreshCartData={refreshCartData}
-              />
-            }
-          ></Route>
-          <Route path="/cart" element={<Cart data={cartData} />}></Route>
-        </Routes>
-      </BrowserRouter>
+      <CartProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Main
+                  data={menuData}
+                  cartData={cartData}
+                  handleRemove={handleRemove}
+                  refreshCartData={refreshCartData}
+                />
+              }
+            ></Route>
+            <Route path="/cart" element={<Cart data={cartData} />}></Route>
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
     </>
   );
 }

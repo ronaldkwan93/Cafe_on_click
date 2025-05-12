@@ -1,30 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./CartModal.module.scss";
 import CartItem from "../CartItem/CartItem";
-import { useEffect, useState } from "react";
-import { subscribeToCart } from "../../services/CafeServiceProvider";
+import { useContext} from "react";
+import { CartContext } from "../../context/CartContext";
+
 
 const CartModal = ({ exitCartModal, data, handleRemove }) => {
-  const [cartItems, setCartItems] = useState(data);
+  const { cartItems } = useContext(CartContext);
   console.log(data, "cart data");
   if (!data) return <p>Loading..</p>;
   const navigate = useNavigate();
-
   const handleContinue = async () => {
     navigate("/cart");
   };
 
 
 
-  useEffect(() => {
-    const unsubscribe = subscribeToCart((items) => {
-      setCartItems(items);
-    });
 
-    return () => {
-      unsubscribe();
-    };
-  }, []);
 
   return (
     <div className={classes.backdrop}>
