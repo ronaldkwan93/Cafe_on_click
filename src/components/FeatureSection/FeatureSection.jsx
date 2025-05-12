@@ -15,11 +15,27 @@ const FeatureSection = ({handleCartModal}) => {
   }, []);
 
   const previousCard = () => {
-    setCurrentIndex(currentIndex - 1);
+    let resultIndex;
+    if(currentIndex === 0 ) {
+      resultIndex = data.length - 1;
+    } else {
+      resultIndex = currentIndex - 1;
+    }
+    setCurrentIndex(resultIndex);
+    
   };
 
+
+console.log(data.length, `feature length`);
+
   const nextCard = () => {
-    setCurrentIndex(currentIndex + 1);
+    let resultIndex;
+    if(currentIndex === data.length -1 ) {
+      resultIndex = 0;
+    } else {
+      resultIndex = currentIndex + 1
+    }
+    setCurrentIndex(resultIndex);
   };
 
   if (data.length === 0) return <p>Loading..</p>;
@@ -30,10 +46,10 @@ const FeatureSection = ({handleCartModal}) => {
     <>
       <h2 className={classes.title}>Featured Items</h2>
       <div className={classes.container}>
-        <button onClick={previousCard} disabled={currentIndex <= 0} className={classes.container__back}>
+        <button onClick={previousCard} className={classes.container__back}>
           {`<`}
         </button>
-        <button onClick={nextCard} disabled={currentIndex === data.length - 1} className={classes.container__next}>
+        <button onClick={nextCard} className={classes.container__next}>
         {`>`}
         </button>
         <div className={classes.container__feature}>
