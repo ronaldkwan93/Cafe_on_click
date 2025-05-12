@@ -11,5 +11,18 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        font-size: 2em;
+        margin-left: 1em;
+        &__btn {
+            font-size: 1em;
+        }
     }
+    &__delete {
+        margin-left: 2em;
+        font-size: 2em;
+        @media (max-width: 477px) {
+            margin-left: 0.5em;
+          }
+    }
+
 }

@@ -29,7 +29,7 @@ const CartModal = ({ exitCartModal, data, handleRemove }) => {
   return (
     <div className={classes.backdrop}>
       <div className={classes.container}>
-        <h1 onClick={exitCartModal}>X</h1>
+        <h1 onClick={exitCartModal} className={classes.container__x}>X</h1>
         <h3>Your cart from</h3>
         <h1> Café on Click! {`>`}</h1>
         {cartItems.length >= 1 ? (
