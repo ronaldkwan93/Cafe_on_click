@@ -4,7 +4,7 @@ import classes from "./ProductCard.module.scss";
 import CartModal from "../CartModal/CartModal";
 
 
-const ProductCard = ({ data, handleCartModal, hidePlus = false }) => {
+const ProductCard = ({ data, handleCartModal, hidePlus = false, onCloseModal }) => {
   console.log(data);
   if (!data) return <p>Loading...</p>;
 
@@ -16,6 +16,7 @@ const ProductCard = ({ data, handleCartModal, hidePlus = false }) => {
 
   const closeModal = () => {
     setModalStatus(false);
+    onCloseModal();
   };
 
   useEffect(() => {

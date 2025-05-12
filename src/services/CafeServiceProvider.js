@@ -143,6 +143,7 @@ export const getCartProducts = async () => {
   return data;
 };
 
+
 export const subscribeToCart = (callback) => {
   const unsubscribe = onSnapshot(
     collection(db, "Cart"),

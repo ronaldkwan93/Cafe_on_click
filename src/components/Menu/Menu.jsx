@@ -1,14 +1,23 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../ProductCard/ProductCard";
 import classes from "./Menu.module.scss";
-import { FaRegHeart, FaHeart } from "react-icons/fa6";
 import { getFavMenuData } from "../../services/CafeServiceProvider";
 
 const Menu = ({ data, handleCartModal }) => {
+
   const [showFav, setShowFav] = useState(false);
   const [favData, setFavData] = useState([]);
+
+  const style = showFav ? classes.title__menu : classes.title__fav;
+
+  console.log(style);
   console.log(data);
   console.log(favData);
+
+  const refreshFavData = async () => {
+    const fav = await getFavMenuData();
+    setFavData(fav);
+  };
 
   const handleFav = () => {
     setShowFav(true);
@@ -17,20 +26,26 @@ const Menu = ({ data, handleCartModal }) => {
 
   const handleMenu = () => {
     setShowFav(false);
-  }
+  };
 
   useEffect(() => {
     const getFavData = async () => {
       await getFavMenuData().then((favData) => setFavData(favData));
     };
     getFavData();
-  });
+  }, [showFav]);
 
   return (
     <div>
       <div className={classes.title}>
-        <h2 onClick={handleMenu}> Menu</h2>
-        <h2 onClick={handleFav}>Favourites</h2>
+        <h2 onClick={handleMenu}   className={showFav ? classes.title__inactiveTab : classes.title__activeTab}
+        >
+          Menu
+        </h2>
+        <h2 onClick={handleFav}   className={!showFav ? classes.title__inactiveTab : classes.title__activeTab}
+        >
+          Favourites
+        </h2>
       </div>
       <div>
         {showFav ? (
@@ -40,6 +55,8 @@ const Menu = ({ data, handleCartModal }) => {
                 key={favProduct.id}
                 data={favProduct}
                 handleCartModal={handleCartModal}
+                onCloseModal={refreshFavData}
+
               />
             ))}
           </div>
@@ -50,6 +67,7 @@ const Menu = ({ data, handleCartModal }) => {
                 key={product.id}
                 data={product}
                 handleCartModal={handleCartModal}
+                onCloseModal={refreshFavData}
               />
             ))}
           </div>
