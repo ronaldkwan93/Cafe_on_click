@@ -42,6 +42,24 @@ export const getFeaturedMenuData = async () => {
   return featuredData;
 };
 
+export const getFavMenuData = async () => {
+  const featuredQuery = query(
+    collection(db, "Items"),
+    where("isFav", "==", true)
+  );
+
+  const querySnapshot = await getDocs(featuredQuery);
+  const favouriteData = [];
+
+  querySnapshot.forEach((doc) => {
+    favouriteData.push({
+      id: doc.id,
+      ...doc.data(),
+    });
+  });
+
+  return favouriteData;
+};
 
 
 export const IsItemInCart = async (title) => {

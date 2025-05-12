@@ -3,5 +3,19 @@
     display: flex;
     flex-wrap: wrap;
     gap: 2em;
-    justify-content: center;
+    justify-content: start;
+}
+.title {
+    display: flex;
+    gap: 2em;
+    padding-bottom: 1em;
+    h2 {
+        border: 1px solid black;
+        border-radius: 6px;
+        padding: 2px;
+        cursor: pointer;
+        &:hover {
+            background: lightgrey;
+        }
+    }
 }

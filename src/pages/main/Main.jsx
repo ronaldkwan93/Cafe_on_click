@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
 import classes from "./Main.module.scss";
-import InputBar from "../../components/InputBar/InputBar";
 import FeatureSection from "../../components/FeatureSection/FeatureSection";
 import Menu from "../../components/Menu/Menu";
 import CartModal from "../../components/CartModal/CartModal";
