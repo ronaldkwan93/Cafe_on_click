@@ -8,5 +8,16 @@
         justify-content: center;
         align-items: center;
         gap: 1em;
+        &__coffee {
+            font-size: 3em;
+        }
     }
+    .cart {
+        font-size: 2em;
+        color: black; // default
+        transition: color 0.3s ease;
+    }
+    .cartActive {
+        color: red;
+      }
 }

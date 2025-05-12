@@ -6,7 +6,7 @@ import FeatureSection from "../../components/FeatureSection/FeatureSection";
 import Menu from "../../components/Menu/Menu";
 import CartModal from "../../components/CartModal/CartModal";
 
-const Main = ({ data, cartData, handleRemove }) => {
+const Main = ({ data, cartData, handleRemove, refreshCartData }) => {
   const [sideModalStatus, setSideModalStatus] = useState(false);
 
   const handleCartModal = () => {
@@ -15,10 +15,11 @@ const Main = ({ data, cartData, handleRemove }) => {
 
   const exitCartModal = () => {
     setSideModalStatus(false);
+    refreshCartData();
   };
   return (
     <div className={classes.body}>
-      <NavBar handleCartModal={handleCartModal} />
+      <NavBar handleCartModal={handleCartModal} cartData={cartData}  />
       <div className={classes.main} onClick={exitCartModal}>
         <div className={classes.main__img}></div>
 
