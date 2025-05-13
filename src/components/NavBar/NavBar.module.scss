@@ -1,27 +1,33 @@
 .nav {
-    margin: 0 10%;
+  padding: 0 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(177, 102, 52);
+  box-shadow: -1px 2px 5px 0px rgba(0, 0, 0, 0.75);
+
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  &__logo {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    &__logo {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 1em;
-        &__coffee {
-            font-size: 3em;
-        }
+    gap: 1em;
+    &__coffee {
+      font-size: 3em;
     }
-    .cart {
-        font-size: 2em;
-        color: black; // default
-        transition: color 0.3s ease;
-        &:hover {
-            transform: scale(1.2);
-            cursor: pointer;
-          }
+  }
+  .cart {
+    font-size: 2em;
+    color: black; // default
+    transition: color 0.3s ease;
+    &:hover {
+      transform: scale(1.2);
+      cursor: pointer;
     }
-    .cartActive {
-        color: red;
-      }
+  }
+  .cartActive {
+    color: red;
+  }
 }

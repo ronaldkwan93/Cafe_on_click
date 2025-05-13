@@ -8,6 +8,8 @@
   align-items: center;
 
   &__heading {
+    background-color: rgba(145, 60, 4, 0.568);
+
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -56,6 +58,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: start;
+    background-color: rgba(145, 60, 4, 0.568);
+
     @media (max-width: 785px) {
       width: 50%;
     }
